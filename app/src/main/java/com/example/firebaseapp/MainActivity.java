@@ -19,29 +19,45 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+    /* Atribut EditTet & TextView*/
         private EditText EmailET;
         private EditText PasswordET;
         private TextView TestTV;
-
+    /* Atribut Button */
         private Button LoginBtn;
-
-        private FirebaseAuth mAuth;
+        private Button SignupBtn;
+    /* Atribut Firebase */
+        public FirebaseAuth mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /* Inisialisasi Atribut*/
         EmailET = (EditText) findViewById(R.id.EmailET);
         PasswordET = (EditText) findViewById(R.id.PasswordET);
         TestTV = (TextView) findViewById(R.id.TestTV);
         LoginBtn = (Button) findViewById(R.id.LoginBtn);
+        SignupBtn = (Button) findViewById(R.id.SignUpBtn);
+
+
         LoginBtn.setOnClickListener(this);
+        SignupBtn.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
     }
 
+
+    /* Override onClick */
+    @Override
+    public void onClick(View v){
+        int i = v.getId();
+        if (i == R.id.LoginBtn){
+            SignIn(EmailET.getText().toString(),PasswordET.getText().toString());
+        } else if (i == R.id.SignUpBtn){
+            SignUp();
+        }
+    }
 
     //Function for SIgn In
     private void SignIn(String email, String password){
@@ -63,8 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
         }});
     }
+    //Function for Sign Up
+    private void SignUp(){
+        Intent intent2 = new Intent(MainActivity.this,SignUpActivity.class);
+        startActivity(intent2);
+    }
 
-    //START Check User
     @Override
     public void onStart(){
         super.onStart();
@@ -83,11 +103,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onClick(View v){
-        int i = v.getId();
-        if (i == R.id.LoginBtn){
-            SignIn(EmailET.getText().toString(),PasswordET.getText().toString());
-        }
-    }
+
 }
